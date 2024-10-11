@@ -1,31 +1,27 @@
+#For test UnixPrac1.txt using Terminal：we assume apply the cd command to enter the directory containing the .fasta files
 #1 Count how many lines there are in each file:
+#The * is a wildcard that matches any characters before .fasta and in this case instead 407228326.fasta, 407228412.fasta and E.coli.fasta
+
 wc -l *.fasta
 
 #2 Print everything starting from the second line for the E. coli genome:
+#Aim to display from the second line of a file, skipping the first line (which is usually the header information in a FASTA file)
+
 tail -n +2 E.coli.fasta 
 
 #3 Count the sequence length of the E. coli genome:
+
 tail -n +2 E.coli.fasta | tr -d '\n' | wc -c
 
 #4 Count the matches of “ATGC” in the E. coli genome:
-tail -n +2 /data/fasta/ecoli_genome.fasta | tr -d '\n' | grep -o "ATGC" | wc -l
+
 tail -n +2 E.coli.fasta | tr -d '\n' | grep -o "ATGC" | wc -l
 
 #5 Compute the AT/GC ratio:
-tail -n +2 /data/fasta/ecoli_genome.fasta | tr -d '\n' | awk '{at=gsub(/[AT]/,""); gc=gsub(/[GC]/,""); print at/gc}' #原版
-tail -n +2 E.coli.fasta | tr -d '\n' | awk '{a=gsub(/[AT]/,""); g=gsub(/[GC]/,""); print a/g}' #可运1
-tail -n +2 E.coli.fasta | tr -d '\n' > temp_seq.txt
-awk '{a=gsub(/[AT]/,""); g=gsub(/[GC]/,""); print a/g}' temp_seq.txt
+#awk: gsub(/[AT]/,""): Count the total number of A and T. gsub(/[GC]/,""): Count the total number of G and C. print a/g: Output the ratio of (A+T) to (G+C)
 
-result=$(echo "scale=4; $(grep -o -e 'A' -e 'T' ../data/fasta/E.coli.fasta | wc -l) / $(grep -o -e 'G' -e 'C' ../data/fasta/E.coli.fasta | wc -l)" | bc); echo "$result" #Harry
-ratio=$(echo "scale=2; $(tail -n +2 E.coli.fasta | tr -d '\n' | grep -o '[AT]' | wc -l)/$(tail -n +2 E.coli.fasta |  tr -d '\n' | grep -o '[GC]' | wc -l)" | bc); echo $ratio #Lu
+tail -n +2 E.coli.fasta | tr -d '\n' | awk '{a=gsub(/[AT]/,""); g=gsub(/[GC]/,""); print a/g}' 
 
-#count A,T,C,G
-A_count=$(tail -n+2 E.coli.fasta | tr -d "\n" | grep -o 'A'| wc -c )
-T_count=$(tail -n+2 E.coli.fasta | tr -d "\n" | grep -o 'T'| wc -c)
-C_count=$(tail -n+2 E.coli.fasta | tr -d "\n" | grep -o 'C'| wc -c )
-G_count=$(tail -n+2 E.coli.fasta | tr -d "\n" | grep -o 'G'| wc -c )
-#caculate ratio using bc command
-Ratio=$(bc -l <<< "scale=2; ($A_count + $T_count) / ($G_count + $C_count) ")
-
-echo "$Ratio"
+#The above command may runs very slowly and the optimizing the command to improve execution speed shows below, but just an idea
+#tail -n +2 E.coli.fasta | tr -d '\n' > temp_seq.txt 
+#awk '{a=gsub(/[AT]/,""); g=gsub(/[GC]/,""); print a/g}' temp_seq.txt

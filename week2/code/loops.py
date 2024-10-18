@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # FOR loops
 for i in range(5):
     print(i)

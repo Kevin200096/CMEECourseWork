@@ -1,6 +1,14 @@
-import csv
-import sys
-from fuzzywuzzy import fuzz
+# source /Users/kevin/myenv/bin/activate
+# Its a command used to activate a virtual environment. 
+# Its function is to enter a created Python virtual environment and use isolated Python packages and dependencies in that environment.
+# deactivate
+# Exit the virtual environment with this command.
+
+#!/usr/bin/env python3
+
+import csv # To handle CSV file reading and writing
+import sys # To handle command-line arguments
+from fuzzywuzzy import fuzz # For fuzzy string matching
 
 def is_an_oak(name):
     """
@@ -24,7 +32,8 @@ def is_an_oak(name):
         >>> is_an_oak('Querqus robur')
         True
     """
-    genus = name.strip().lower().split()[0]
+    # Use fuzzy matching to determine if genus is close to "quercus"
+    genus = name.strip().lower().split()[0]  # Strip any extra whitespace and convert to lowercase, then split to extract the genus
     return fuzz.ratio(genus, 'quercus') >= 85  # Lower threshold to 85% to match more errors
 
 def main(argv):
@@ -50,29 +59,31 @@ def main(argv):
         f = open('../data/TestOaksData.csv', 'r')
         g = open('../data/JustOaksData.csv', 'w')
     except IOError as e:
+    # Print error message and exit if there's an issue opening the file
         print(f"Error opening file: {e}")
-        return 1
+        return 1 # Return error code 1 to indicate failure
 
     # Read and write CSV data
-    taxa = csv.reader(f)
-    csvwrite = csv.writer(g)
+    taxa = csv.reader(f) # Read the rows from the input CSV
+    csvwrite = csv.writer(g) # Prepare to write rows to the output CSV
 
     # Iterate through each row in the CSV file
     for row in taxa:
         print(row)
         print("The genus is:")
         print(row[0] + '\n')
+        # Check if the genus is identified as an oak using the is_an_oak function
         if is_an_oak(row[0]):
-            print('FOUND AN OAK!\n')
-            csvwrite.writerow([row[0], row[1]])
+            print('FOUND AN OAK!\n') # Notify that an oak has been found
+            csvwrite.writerow([row[0], row[1]]) # Write the genus and species to the output file
 
     # Close files
     f.close()
     g.close()
 
-    return 0
+    return 0 # Return 0 to indicate successful completion
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()  # Run doctests
-    status = main(sys.argv)
+    status = main(sys.argv) # Call the main function and pass command-line arguments

@@ -1,12 +1,23 @@
-# A simple script to illustrate R input-output.  
-# Run line by line and check inputs outputs to understand what is happening  
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: basic_io.R
+# Description: Demonstrates basic input-output operations in R using a simple dataset.
+# Inputs: "../data/trees.csv" (input dataset)
+# Outputs: "../results/MyData.csv" (output dataset)
+# Date: Dec 2024
 
-MyData <- read.csv("../data/trees.csv", header = TRUE) # import with headers
+############# Input: Read Data ###############
+# Load the dataset with headers
+MyData <- read.csv("../data/trees.csv", header = TRUE)  # Import with headers
 
-write.csv(MyData, "../results/MyData.csv") #write it out as a new file
+############# Output: Write Data ###############
+# Write the entire dataset to a CSV file
+write.csv(MyData, "../results/MyData.csv", row.names = FALSE)  # Write without row names
 
-write.table(MyData[1,], file = "../results/MyData.csv",append=TRUE) # Append to it
+# Append the first row of the dataset to the existing file
+write.table(MyData[1, ], file = "../results/MyData.csv", append = TRUE, sep = ",", col.names = FALSE, row.names = FALSE)
 
-write.csv(MyData, "../results/MyData.csv", row.names=TRUE) # write row names
+# Write the entire dataset again with row names
+write.csv(MyData, "../results/MyData.csv", row.names = TRUE)  # Overwrites previous file
 
-write.table(MyData, "../results/MyData.csv", col.names=FALSE) # ignore column names
+# Write the entire dataset without column names
+write.table(MyData, "../results/MyData.csv", sep = ",", col.names = FALSE, row.names = FALSE)

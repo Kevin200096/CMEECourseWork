@@ -1,3 +1,10 @@
+#!/usr/bin/env Rscript
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: sample.R
+# Description: Compares different methods for sampling from a population to calculate means, including loops and vectorized approaches.
+# Outputs: Runtime performance of each method and histograms of the population.
+# Date: Oct 2024
+
 ######### Functions ##########
 
 ## A function to take a sample of size n from a population "popn" and return its mean

@@ -1,14 +1,18 @@
-# source /Users/kevin/myenv/bin/activate
-# Its a command used to activate a virtual environment. 
-# Its function is to enter a created Python virtual environment and use isolated Python packages and dependencies in that environment.
-# deactivate
-# Exit the virtual environment with this command.
-
 #!/usr/bin/env python3
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: oaks_debugme.py
+# Description: Processes a CSV file to filter rows where the genus name matches 'Quercus' (oak trees).
+# Outputs: Writes matching rows to a new CSV file and prints debug information to the console.
+# Date: Oct 2024
 
-import csv # To handle CSV file reading and writing
-import sys # To handle command-line arguments
-from fuzzywuzzy import fuzz # For fuzzy string matching
+"""
+This script filters oak tree species (genus 'Quercus') from a CSV file using fuzzy string matching.
+It writes the filtered results to another CSV file and prints debug information to the console.
+"""
+
+import csv  # To handle CSV file reading and writing
+import sys  # To handle command-line arguments
+from fuzzywuzzy import fuzz  # For fuzzy string matching
 
 def is_an_oak(name):
     """
@@ -33,13 +37,13 @@ def is_an_oak(name):
         True
     """
     # Use fuzzy matching to determine if genus is close to "quercus"
-    genus = name.strip().lower().split()[0]  # Strip any extra whitespace and convert to lowercase, then split to extract the genus
-    return fuzz.ratio(genus, 'quercus') >= 85  # Lower threshold to 85% to match more errors
+    genus = name.strip().lower().split()[0]  # Extract and normalize genus
+    return fuzz.ratio(genus, 'quercus') >= 85  # Threshold for fuzzy matching
 
 def main(argv):
     """
-    Processes a CSV file to filter out rows where the genus name is identified as 'Quercus'
-    (i.e., an oak tree). Writes the filtered data to another CSV file.
+    Processes a CSV file to filter rows where the genus name is identified as 'Quercus'.
+    Writes the filtered data to another CSV file.
 
     Args:
         argv (list): Command-line arguments (not used in this case).
@@ -47,43 +51,37 @@ def main(argv):
     Returns:
         int: Status code (0 for success).
 
-    Behavior:
-        - Reads data from '../data/TestOaksData.csv'
-        - Writes rows with oak trees (genus close to 'Quercus') to '../data/JustOaksData.csv'
-
     Raises:
         IOError: If the input or output file cannot be opened.
     """
-    # Open files
+    # Define file paths
+    input_file = '../data/TestOaksData.csv'
+    output_file = '../data/JustOaksData.csv'
+
     try:
-        f = open('../data/TestOaksData.csv', 'r')
-        g = open('../data/JustOaksData.csv', 'w')
+        # Open files
+        with open(input_file, 'r') as f, open(output_file, 'w', newline='') as g:
+            taxa = csv.reader(f)  # Read rows from the input CSV
+            csvwrite = csv.writer(g)  # Prepare to write rows to the output CSV
+
+            # Iterate through each row in the CSV file
+            for row in taxa:
+                print(row)
+                print("The genus is:")
+                print(row[0] + '\n')
+                # Check if the genus is identified as an oak
+                if is_an_oak(row[0]):
+                    print('FOUND AN OAK!\n')  # Notify that an oak has been found
+                    csvwrite.writerow([row[0], row[1]])  # Write genus and species to the output file
+
     except IOError as e:
-    # Print error message and exit if there's an issue opening the file
         print(f"Error opening file: {e}")
-        return 1 # Return error code 1 to indicate failure
+        return 1  # Return error code 1 for failure
 
-    # Read and write CSV data
-    taxa = csv.reader(f) # Read the rows from the input CSV
-    csvwrite = csv.writer(g) # Prepare to write rows to the output CSV
-
-    # Iterate through each row in the CSV file
-    for row in taxa:
-        print(row)
-        print("The genus is:")
-        print(row[0] + '\n')
-        # Check if the genus is identified as an oak using the is_an_oak function
-        if is_an_oak(row[0]):
-            print('FOUND AN OAK!\n') # Notify that an oak has been found
-            csvwrite.writerow([row[0], row[1]]) # Write the genus and species to the output file
-
-    # Close files
-    f.close()
-    g.close()
-
-    return 0 # Return 0 to indicate successful completion
+    return 0  # Return 0 to indicate successful completion
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()  # Run doctests
-    status = main(sys.argv) # Call the main function and pass command-line arguments
+    status = main(sys.argv)  # Call the main function and pass command-line arguments
+    sys.exit(status)

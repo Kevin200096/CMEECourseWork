@@ -1,4 +1,9 @@
 #!/bin/bash
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: csvtospace.sh
+# Description: Conversion of comma separated values to space separated values
+# Arguments: 1 -> Comma delimited file (.csv)
+# Date: Oct 2024
 
 # Check if exactly one argument is provided
 if [ $# -ne 1 ]; then # $# represents the number of arguments passed to the script

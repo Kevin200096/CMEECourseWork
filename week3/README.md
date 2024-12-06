@@ -1,57 +1,141 @@
-CMEE coursework week 3 contents can be found in this repository.
-Week 3 contains the following sections:
-> Biological Computing in R
-> Data Management and Visualization
+CMEE Coursework Week 3 3rd and Final submission
 
-Week 3 uses the following languages:
-> R
+This repository contains the coursework for Week 3 of the CMEE program. It focuses on two key areas: Biological Computing in R and Data Management and Visualization. The exercises emphasize R programming skills, including data wrangling, control structures, visualization, and statistical analysis.
 
-Week 3 have the following dependencies:
-> tidyverse # a collection of R packages for data science, covering data import, cleaning, transformation, and visualization. It includes core packages like dplyr (data manipulation), ggplot2 (data visualization), and tidyr (data tidying), making it ideal for efficiently handling data analysis tasks. 
-> reshape2 # used for reshaping data, especially useful for converting between wide and long formats. Key functions include melt() (wide to long) and dcast() (long to wide), helping prepare data into desired formats before analysis or visualization.
-> ggplot2 (included in tidyverse) # a powerful R data visualization package based on the "grammar of graphics" concept, supporting layered creation of complex graphs. It allows for highly customizable graphics, making it suitable for creating high-quality, publication-level data visualizations.
+Contents
+Week 3 Sections:
+Biological Computing in R
+Data Management and Visualization
+Programming Language:
+R
 
-The following files can be found in the 'code' folder:
--Biological Computing in R
-> basic_io.R
-> control_flow.R
-> break.R
-> next.R
-> boilerplate.R
-> R_conditionals.R
-> TreeHeight.R
-> Vectorize1.R
-> preallocate.R
-> apply1.R
-> apply2.R
-> sample.R
-> Ricker.R
-> browse.R
-> try.R
--Data Management and Visualization
-> DataWrang.R
-> Girko.R
-> MyBars.R
-> plotLin.R
+Dependencies
+The following R packages are required:
+tidyverse: A collection of R packages for data import, manipulation, and visualization. Includes ggplot2 (for plotting) and dplyr (for data manipulation).
+reshape2: For reshaping data (converting between wide and long formats). Used in earlier exercises before switching to tidyr.
+maps: For geographical visualizations, used in mapping exercises.
+Installation:
+To install the required R packages, use the following commands:
+if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
+if (!requireNamespace("reshape2", quietly = TRUE)) install.packages("reshape2")
+if (!requireNamespace("maps", quietly = TRUE)) install.packages("maps")
 
-'data'
-> trees.csv
-> Results.txt
-> PoundHillData.csv
-> PoundHillMetaData.csv
-> EcolArchives-E089-51-D1.csv
+Project Structure
+The project is organized as follows:
+week3/
+    code/
+        apply1.R
+        apply2.R
+        basic_io.R
+        boilerplate.R
+        break.R
+        browse.R
+        control_flow.R
+        DataWrang.R
+        DataWrangTidy.R #practicals
+        Florida.R #practicals
+        Florida.tex #practicals
+        Girko.R
+        GPDD_Data.R #practicals
+        MyBars.R
+        next.R
+        plotLin.R
+        PP_Dists.R #practicals
+        PP_Regress.R #practicals
+        preallocate.R
+        R_conditionals.R
+        Ricker.R
+        sample.R
+        TreeHeight.R #practicals
+        try.R
+        Vectorize1.R
+        Vectorize2.R #practicals
+    data/
+        EcolArchives-E089-51-D1.csv
+        GPDDFiltered.RData
+        KeyWestAnnualMeanTemperature.RData
+        PoundHillData.csv
+        PoundHillMetaData.csv
+        Results.txt
+        trees.csv
+    results/
+        .gitkeep
+    sandbox/
+        .gitkeep
 
-Project Brief:
--Biological Computing in R
-1. The study of class scripts of "Biological Computing in R" provides a foundation for data wrangling, processing, control structures, and common functions in R, especially for biological data. Key files introduce R basics like input/output handling (basic_io.R), conditionals (R_conditionals.R), flow control with break and next statements, script structure (boilerplate.R), vectorization (Vectorize1.R), efficient preallocation (preallocate.R), data manipulation functions (apply1.R, apply2.R), sampling (sample.R), and simulation models (e.g., Ricker.R). Additionally, error handling and debugging techniques are demonstrated in try.R and browse.R.
+Code Directory
+The following files can be found in the code folder:
+Biological Computing in R
+Control Structures:
+control_flow.R: Demonstrates the use of control structures in R, such as if, for, and while loops.
+break.R: Explores breaking out of loops.
+next.R: Illustrates skipping iterations in a loop.
+Function Writing:
+boilerplate.R: Provides a basic structure for writing R scripts.
+R_conditionals.R: Uses functions to check numbers (even/odd, prime, power of two).
+Vectorization and Performance:
+Vectorize1.R: Compares loop-based and vectorized implementations.
+preallocate.R: Highlights the performance benefits of preallocating vectors.
+sample.R: Investigates sampling and computational efficiency.
+Simulation Models:
+Ricker.R: Implements and visualizes the Ricker population model.
+try.R: Demonstrates error handling in R scripts.
+browse.R: Explores debugging with browser() in R.
+TreeHeight.R: Calculates tree heights from angle and distance measurements.
 
--Data Management and Visualization
-2. The Data Management and Visualization section provides methods for handling biological data, including wrangling, reformatting, and visualizing with R. The files:
-DataWrang.R - Processes raw data for analysis, including reshaping and metadata handling.
-Girko.R - Demonstrates Girko's circular law using plots.
-MyBars.R - Creates bar plots with R's plotting tools.
-plotLin.R - Plots linear data for visualizing trends.
+Data Management and Visualization
+Data Wrangling:
+DataWrang.R: Processes and reshapes biological data using reshape2.
+DataWrangTidy.R: A modernized version of DataWrang.R using tidyverse.
+Visualization:
+Girko.R: Visualizes Girko's circular law with eigenvalues.
+MyBars.R: Creates bar plots with error ranges.
+plotLin.R: Plots linear regression with color gradients.
+Statistical Analysis and Visualization:
+PP_Dists.R: Analyzes predator-prey body mass distributions and generates subplots.
+PP_Regress.R: Performs regression analysis and visualizes predator-prey relationships.
+Mapping:
+GPDD_Data.R: Maps Global Population Dynamics Database (GPDD) locations on a world map.
 
-Author:
-> Kevin Zhao
-> kz1724@ic.ac.uk
+Data Directory
+The following data files are used by the scripts:
+trees.csv: Contains distance and angle data for calculating tree heights.
+Results.txt: Input file for bar plot generation.
+PoundHillData.csv and PoundHillMetaData.csv: Used for reshaping and metadata handling exercises.
+EcolArchives-E089-51-D1.csv: Contains predator-prey interaction data for statistical analysis.
+GPDDFiltered.RData: Latitude and longitude data for mapping exercises.
+
+Results Directory
+The results/ directory contains outputs generated by the scripts, such as:
+PDF plots:
+MyLinReg.pdf: Linear regression visualization.
+Pred_Subplots.pdf, Prey_Subplots.pdf, SizeRatio_Subplots.pdf: Predator-prey body mass distributions.
+PP_Regress.pdf: Regression analysis for predator-prey relationships.
+GPDD_Map.pdf: World map with GPDD data locations.
+CSV files:
+PP_Results.csv: Statistical summaries of predator-prey mass distributions.
+PP_Regress_Results.csv: Regression analysis results.
+
+How to Run
+Clone the repository:
+git clone <repository_url>
+Navigate to the project folder:
+cd Week3/
+Install the required R packages:
+source("code/install_dependencies.R")
+Run any script:
+Rscript code/<script_name>.R
+
+Feedback-Based Improvements
+All documents has changed base on feedback from week 3.
+Error Handling: Scripts now handle missing dependencies and provide user-friendly error messages.
+Modularity: Functions are isolated for reusability and testing.
+Documentation: Comprehensive comments and standardized headers are added to all scripts.
+
+Extre Practicals completion
+All the practicals that can be done have been completed, in order to increase contact and understanding
+
+Author
+Kevin Zhao
+MSc Student, Imperial College London
+Email: zhetao.zhao24@imperial.ac.uk

@@ -1,56 +1,47 @@
 #!/usr/bin/env python3
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: dictionary.py
+# Description: Creates a dictionary mapping taxonomic orders to sets of species using two methods.
+# Outputs: Prints the dictionary created by each method to the console.
+# Date: Oct 2024
 
-taxa = [ ('Myotis lucifugus','Chiroptera'),
-         ('Gerbillus henleyi','Rodentia',),
-         ('Peromyscus crinitus', 'Rodentia'),
-         ('Mus domesticus', 'Rodentia'),
-         ('Cleithrionomys rutilus', 'Rodentia'),
-         ('Microgale dobsoni', 'Afrosoricida'),
-         ('Microgale talazaci', 'Afrosoricida'),
-         ('Lyacon pictus', 'Carnivora'),
-         ('Arctocephalus gazella', 'Carnivora'),
-         ('Canis lupus', 'Carnivora'),
-        ]
+"""
+This script demonstrates two methods for creating a dictionary that maps taxonomic
+orders to sets of species: a regular for-loop approach and a list comprehension approach.
+The resulting dictionaries are printed to the console in a standard format.
+"""
 
-# Write a python script to populate a dictionary called taxa_dic derived from
-# taxa so that it maps order names to sets of taxa and prints it to screen.
-# (1) Create taxa_dic mapping orders to sets of species using regular method
+# Input list of taxa with species and their respective orders
+taxa = [
+    ('Myotis lucifugus', 'Chiroptera'),
+    ('Gerbillus henleyi', 'Rodentia'),
+    ('Peromyscus crinitus', 'Rodentia'),
+    ('Mus domesticus', 'Rodentia'),
+    ('Cleithrionomys rutilus', 'Rodentia'),
+    ('Microgale dobsoni', 'Afrosoricida'),
+    ('Microgale talazaci', 'Afrosoricida'),
+    ('Lyacon pictus', 'Carnivora'),
+    ('Arctocephalus gazella', 'Carnivora'),
+    ('Canis lupus', 'Carnivora'),
+]
+
+# (1) Create taxa_dic using a regular for-loop
 taxa_dic = {}
 for species, order in taxa:
     if order not in taxa_dic:
         taxa_dic[order] = set()  # Initialize an empty set if order is not already in the dictionary
     taxa_dic[order].add(species)
 
-# Print the dictionary in standard collection format
+# Print the dictionary created using the regular method
 print("Output using regular method:")
 for order, species_set in taxa_dic.items():
     print(f"'{order}': {species_set}")
 
-# Now write a list comprehension that does the same (including the printing after the dictionary has been created)  
-# (2) Using list comprehension to achieve the same result
+# (2) Create taxa_dic_comp using a list comprehension
 taxa_dic_comp = {}
 [taxa_dic_comp.setdefault(order, set()).add(species) for species, order in taxa]
 
-# Print the dictionary in standard collection format using list comprehension
+# Print the dictionary created using the list comprehension method
 print("\nOutput using list comprehension:")
 for order, species_set in taxa_dic_comp.items():
     print(f"'{order}': {species_set}")
-
-# My output:
-# Output using regular method:
-# 'Chiroptera': {'Myotis lucifugus'}
-# 'Rodentia': {'Peromyscus crinitus', 'Cleithrionomys rutilus', 'Gerbillus henleyi', 'Mus domesticus'}
-# 'Afrosoricida': {'Microgale dobsoni', 'Microgale talazaci'}
-# 'Carnivora': {'Arctocephalus gazella', 'Canis lupus', 'Lyacon pictus'}
-
-# Output using list comprehension:
-# 'Chiroptera': {'Myotis lucifugus'}
-# 'Rodentia': {'Peromyscus crinitus', 'Cleithrionomys rutilus', 'Gerbillus henleyi', 'Mus domesticus'}
-# 'Afrosoricida': {'Microgale dobsoni', 'Microgale talazaci'}
-# 'Carnivora': {'Arctocephalus gazella', 'Canis lupus', 'Lyacon pictus'}
-
-# An example output is:
-#  
-# 'Chiroptera' : set(['Myotis lucifugus']) ... etc. 
-# OR, 
-# 'Chiroptera': {'Myotis  lucifugus'} ... etc

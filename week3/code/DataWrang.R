@@ -1,50 +1,64 @@
 ################################################################
 ################## Wrangling the Pound Hill Dataset ############
 ################################################################
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: DataWrang.R
+# Description: Cleans and transforms the Pound Hill dataset for analysis.
+# Inputs: "../data/PoundHillData.csv" (raw dataset),
+#         "../data/PoundHillMetaData.csv" (metadata)
+# Outputs: None
+# Date: Dec 2024
 
-############# Load the dataset ###############
-# header = false because the raw data don't have real headers
+############# Load Required Packages ###############
+# Load reshape2 package
+require(reshape2)  # Ensure reshape2 is available
+
+############# Load the Dataset ###############
+# Load raw dataset without headers
+# Assumes the file "../data/PoundHillData.csv" exists
 MyData <- as.matrix(read.csv("../data/PoundHillData.csv", header = FALSE))
 
-# header = true because we do have metadata headers
+# Load metadata with headers
+# Assumes the file "../data/PoundHillMetaData.csv" exists
 MyMetaData <- read.csv("../data/PoundHillMetaData.csv", header = TRUE, sep = ";")
 
-############# Inspect the dataset ###############
-head(MyData)
-dim(MyData)
-str(MyData)
-fix(MyData) #you can also do this
-fix(MyMetaData)
+############# Inspect the Dataset ###############
+# Display raw data for debugging
+head(MyData)  # First few rows
+dim(MyData)   # Dimensions of the matrix
+str(MyData)   # Structure of the data
 
-############# Transpose ###############
-# To get those species into columns and treatments into rows 
-MyData <- t(MyData) 
-head(MyData)
-dim(MyData)
+############# Transpose the Dataset ###############
+# Transpose the matrix to make species columns and treatments rows
+MyData <- t(MyData)
 
-############# Replace species absences with zeros ###############
-MyData[MyData == ""] = 0
+############# Replace Missing Values with Zeros ###############
+# Replace empty strings in the matrix with zeros
+MyData[MyData == ""] <- 0
 
-############# Convert raw matrix to data frame ###############
+############# Convert Matrix to Data Frame ###############
+# Convert the transposed matrix to a data frame
+TempData <- as.data.frame(MyData[-1,], stringsAsFactors = FALSE)  # Exclude the header row
+colnames(TempData) <- MyData[1,]  # Assign column names from the first row of the original matrix
 
-TempData <- as.data.frame(MyData[-1,],stringsAsFactors = F) #stringsAsFactors = F is important!
-colnames(TempData) <- MyData[1,] # assign column names from original data
+############# Convert from Wide to Long Format ###############
+# Use melt to reshape data into long format
+MyWrangledData <- melt(
+  TempData, 
+  id = c("Cultivation", "Block", "Plot", "Quadrat"), 
+  variable.name = "Species", 
+  value.name = "Count"
+)
 
-############# Convert from wide to long format  ###############
-require(reshape2) # load the reshape2 package
-
-?melt #check out the melt function
-
-MyWrangledData <- melt(TempData, id=c("Cultivation", "Block", "Plot", "Quadrat"), variable.name = "Species", value.name = "Count")
-
+# Convert categorical variables to factors
 MyWrangledData[, "Cultivation"] <- as.factor(MyWrangledData[, "Cultivation"])
 MyWrangledData[, "Block"] <- as.factor(MyWrangledData[, "Block"])
 MyWrangledData[, "Plot"] <- as.factor(MyWrangledData[, "Plot"])
 MyWrangledData[, "Quadrat"] <- as.factor(MyWrangledData[, "Quadrat"])
-MyWrangledData[, "Count"] <- as.integer(MyWrangledData[, "Count"])
+MyWrangledData[, "Count"] <- as.integer(MyWrangledData[, "Count"])  # Convert counts to integers
 
-str(MyWrangledData)
-head(MyWrangledData)
-dim(MyWrangledData)
-
-############# Exploring the data (extend the script below)  ###############
+############# Inspect the Wrangled Data ###############
+# Display the wrangled data for debugging
+str(MyWrangledData)  # Structure of the wrangled data
+head(MyWrangledData)  # First few rows
+dim(MyWrangledData)   # Dimensions of the wrangled data

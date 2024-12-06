@@ -1,3 +1,10 @@
+#!/usr/bin/env Rscript
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: plotLin.R
+# Description: Generates a scatterplot of simulated data with a linear regression line and mathematical annotation.
+# Outputs: A PDF file named "MyLinReg.pdf" in the results directory.
+# Date: Oct 2024
+
 # Loading required packages: ggplot2
 x <- seq(0, 100, by = 0.1)
 y <- -4. + 0.25 * x +

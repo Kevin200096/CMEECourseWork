@@ -1,28 +1,26 @@
 #!/usr/bin/env python3
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: tuple.py
+# Description: Iterates through a tuple of bird data and prints each species' information in a formatted manner.
+# Outputs: Prints the Latin name, common name, and mass of each species to the console.
+# Date: Oct 2024
 
-birds = ( ('Passerculus sandwichensis','Savannah sparrow',18.7),
-          ('Delichon urbica','House martin',19),
-          ('Junco phaeonotus','Yellow-eyed junco',19.5),
-          ('Junco hyemalis','Dark-eyed junco',19.6),
-          ('Tachycineata bicolor','Tree swallow',20.2),
-        )
+"""
+This script processes a tuple of bird data, where each entry contains the
+Latin name, common name, and mass of a bird species. It prints the details
+of each species in a formatted manner.
+"""
 
-# Birds is a tuple of tuples of length three: latin name, common name, mass.
-# write a (short) script to print these on a separate line or output block by
-# species 
+# Dataset of birds: (Latin name, Common name, Mass)
+birds = (
+    ('Passerculus sandwichensis', 'Savannah sparrow', 18.7),
+    ('Delichon urbica', 'House martin', 19),
+    ('Junco phaeonotus', 'Yellow-eyed junco', 19.5),
+    ('Junco hyemalis', 'Dark-eyed junco', 19.6),
+    ('Tachycineata bicolor', 'Tree swallow', 20.2),
+)
+
 # Loop through each tuple and print the formatted output
 for bird in birds:
     latin_name, common_name, mass = bird
     print(f"Latin name: {latin_name} Common name: {common_name} Mass: {mass}")
-
-# My output:
-# Latin name: Passerculus sandwichensis Common name: Savannah sparrow Mass: 18.7
-# Latin name: Delichon urbica Common name: House martin Mass: 19
-# Latin name: Junco phaeonotus Common name: Yellow-eyed junco Mass: 19.5
-# Latin name: Junco hyemalis Common name: Dark-eyed junco Mass: 19.6
-# Latin name: Tachycineata bicolor Common name: Tree swallow Mass: 20.2
-
-# A nice example output is:
-# 
-# Latin name: Passerculus sandwichensis Common name: Savannah sparrow Mass: 18.7
-# ... etc.

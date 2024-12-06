@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: align_seqs.py
+# Description: Aligns two DNA sequences to find the best alignment and calculates the alignment score.
+# Outputs: Best alignment, alignment score, and an output file with results.
+# Date: Oct 2024
 
-"""Align two DNA sequences and find the best alignment score."""
-# Two example sequences to match
-# "ATCGCCGGATTACGGG"
-# "CAATTCGGAT"
+"""
+This script aligns two DNA sequences to find the best alignment based on a scoring method
+and outputs the results to a file. It demonstrates the use of string manipulation and
+file I/O in Python.
+"""
 
 import os
 import sys
@@ -87,10 +93,10 @@ def save_alignment_to_file(output_file, best_align, best_score, s1):
 
 def read_sequences_from_file(file_path):
     """
-    Read two DNA sequences from a CSV file.
+    Read two DNA sequences from a file.
 
     Args:
-        file_path (str): Path to the input CSV file.
+        file_path (str): Path to the input file.
 
     Returns:
         tuple: Two DNA sequences.
@@ -117,7 +123,7 @@ def main():
     try:
         seq1, seq2 = read_sequences_from_file(input_file)
     except Exception as e:
-        print(f"Error reading sequences: {e}") # Print error message and exit if there's an issue reading the file
+        print(f"Error reading sequences: {e}")  # Print error message and exit if there's an issue reading the file
         sys.exit(1)
 
     # Find the best alignment and score
@@ -127,7 +133,7 @@ def main():
     try:
         save_alignment_to_file(output_file, best_align, best_score, s1)
     except Exception as e:
-        print(f"Error saving alignment: {e}") # Print error message and exit if there's an issue writing the file
+        print(f"Error saving alignment: {e}")  # Print error message and exit if there's an issue writing the file
         sys.exit(1)
 
     # Output the best alignment and score to the console for the user
@@ -135,6 +141,5 @@ def main():
     print(f"Best alignment:\n{best_align}\n{s1}")
     print(f"Best score: {best_score}")
 
-# Standard boilerplate code to call the main() function when the script is executed
 if __name__ == "__main__":
     main()

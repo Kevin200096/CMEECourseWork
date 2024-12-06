@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: cfexercises1.py
+# Description: Demonstrates basic Python functions for calculations, including square roots,
+# finding the maximum of two numbers, sorting, and calculating factorials.
+# Outputs: Printed results of test cases for each function.
+# Date: Oct 2024
 
 """
-A collection of functions to demonstrate basic calculations, including finding the 
-square root, determining the larger of two numbers, sorting numbers, and calculating 
-factorials using various methods (iterative, recursive, and while-loop-based approaches).
+A script containing a collection of functions to demonstrate basic calculations.
+Includes finding the square root, determining the larger of two numbers, sorting numbers,
+and calculating factorials using various methods.
+
+The script also demonstrates testing these functions via a `main` function.
 """
 
 __author__ = 'Kevin Zhao (kz1724@ic.ac.uk)'
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 import sys
 
@@ -44,9 +52,7 @@ def foo_2(x, y):
         >>> foo_2(10, 5)
         10
     """
-    if x > y:
-        return x
-    return y
+    return max(x, y)
 
 def foo_3(x, y, z):
     """
@@ -64,19 +70,9 @@ def foo_3(x, y, z):
         >>> foo_3(5, 4, 3)
         [3, 4, 5]
     """
-    # Compare x and y, swap if x is greater than y
-    if x > y:
-        tmp = y
-        y = x
-        x = tmp
-    # Compare y and z, swap if y is greater than z
-    if y > z:
-        tmp = z
-        z = y
-        y = tmp
-    return [x, y, z] # Return the sorted values as a list
+    return sorted([x, y, z])
 
-def foo_4(x):
+def factorial(x):
     """
     Calculate the factorial of a number iteratively.
 
@@ -87,52 +83,13 @@ def foo_4(x):
         int: The factorial of the given number.
 
     Example:
-        >>> foo_4(5)
+        >>> factorial(5)
         120
     """
-    result = 1 # Initialize result to 1 (the factorial of 0 is also 1)
-    # Iterate from 1 to x (inclusive) and multiply each number to result
+    result = 1
     for i in range(1, x + 1):
-        result = result * i
-    return result # Return the computed factorial
-
-def foo_5(x):
-    """
-    Calculate the factorial of a number recursively.
-
-    Args:
-        x (int): The number to calculate the factorial of.
-
-    Returns:
-        int: The factorial of the given number.
-
-    Example:
-        >>> foo_5(5)
-        120
-    """
-    if x == 1: # Base case: factorial of 1 is 1
-        return 1
-    return x * foo_5(x - 1) # Recursive call
-
-def foo_6(x):
-    """
-    Calculate the factorial of a number using a while loop.
-
-    Args:
-        x (int): The number to calculate the factorial of.
-
-    Returns:
-        int: The factorial of the given number.
-
-    Example:
-        >>> foo_6(5)
-        120
-    """
-    facto = 1 # Initialize result as 1
-    while x >= 1: # Continue the loop while x is greater than or equal to 1
-        facto = facto * x # Multiply the current value of x to facto
-        x = x - 1 # Decrement x by 1
-    return facto # Return the computed factorial
+        result *= i
+    return result
 
 # The main function to test the above functions
 def main(argv):
@@ -145,19 +102,14 @@ def main(argv):
 
     Returns:
         int: Status code (0 for success).
-
-    Example:
-        Running the script will display the test results of each function.
     """
     print(f"foo_1(10): {foo_1(10)}")  # Test case: Square root of 10
     print(f"foo_2(10, 5): {foo_2(10, 5)}")  # Test case: Larger of 10 and 5
     print(f"foo_3(5, 4, 3): {foo_3(5, 4, 3)}")  # Test case: Sorting 5, 4, 3
-    print(f"foo_4(5): {foo_4(5)}")  # Test case: Factorial of 5
-    print(f"foo_5(10): {foo_5(10)}")  # Test case: Factorial of 10 (recursive)
-    print(f"foo_6(5): {foo_6(5)}")  # Test case: Factorial of 5 (while loop)
-    return 0 # Return success status code
+    print(f"factorial(5): {factorial(5)}")  # Test case: Factorial of 5
+    print(f"factorial(10): {factorial(10)}")  # Test case: Factorial of 10
+    return 0  # Return success status code
 
-# Standard boilerplate code to call the main() function when the script is executed
 if __name__ == "__main__":
     # Pass the system arguments to the main function and exit with the status code returned
     status = main(sys.argv)

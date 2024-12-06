@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: loops.py
+# Description: Demonstrates the use of `for` and `while` loops with simple examples in Python.
+# Outputs: Prints the results of iterations and calculations to the console.
+# Date: Oct 2024
+
+"""
+This script demonstrates basic usage of `for` and `while` loops in Python through examples
+of iterating over ranges, lists, and performing calculations.
+"""
 
 # FOR loops
 for i in range(5):

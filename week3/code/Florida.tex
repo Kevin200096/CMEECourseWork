@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{geometry}
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+}
+\graphicspath{{../results/}}
+
+\title{\huge Is Florida Getting Warmer?}
+\author{Kevin Zhao}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This report investigates whether the temperature in Key West, Florida (USA) has significantly increased over the 20th century. The dataset spans 100 years, from 1901 to 2000, and contains annual mean temperature measurements.
+
+\section{Methods}
+
+Spearman's rank correlation coefficient (rho) was used to measure the relationship between years and temperatures. A permutation analysis was conducted by randomizing the year-temperature pairs 10,000 times to generate a distribution of rho values. The observed rho value from the original dataset was compared to this random distribution to assess statistical significance.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Florida_Histogram.png}
+    \caption{The distribution of Spearman's rho values from 10,000 random permutations. The red line represents the observed rho value, while the dashed blue lines indicate the 95\% confidence interval.}
+    \label{fig:Histogram}
+\end{figure}
+
+\section{Results \& Interpretation}
+
+The observed Spearman's rank correlation coefficient (rho) was 0.526. This value was greater than 100\% of the 10,000 randomly generated rho values, corresponding to a p-value of 0. This strongly suggests that the average temperature in Key West, Florida, has significantly increased over the period from 1901 to 2000.
+
+\end{document}

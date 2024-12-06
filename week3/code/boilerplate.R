@@ -1,4 +1,9 @@
-# A boilerplate R script
+#!/usr/bin/env Rscript
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: Boilerplate.R
+# Description: Demonstrates the structure of a simple R script and a function definition.
+# Outputs: Prints the types and values of the arguments passed to the function.
+# Date: Oct 2024
 
 MyFunction <- function(Arg1, Arg2) {
   

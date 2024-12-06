@@ -1,3 +1,10 @@
+#!/usr/bin/env Rscript
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: control_flow.R
+# Description: Demonstrates control flow structures in R, including if-else statements, for loops, and while loops.
+# Outputs: Prints results of control flow operations to the console.
+# Date: Oct 2024
+
 a <- TRUE
 if (a == TRUE) {
     print ("a is TRUE")

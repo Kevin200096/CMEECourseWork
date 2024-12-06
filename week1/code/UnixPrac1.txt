@@ -1,27 +1,49 @@
-#For test UnixPrac1.txt using Terminal：we assume apply the cd command to enter the directory containing the .fasta files
-#1 Count how many lines there are in each file:
-#The * is a wildcard that matches any characters before .fasta and in this case instead 407228326.fasta, 407228412.fasta and E.coli.fasta
+# Author: Kevin Zhao
+# Script: UnixPrac1.sh
+# Description: Various operations for analyzing .fasta files in a directory.
+# Outputs: Line counts, sequence information, matches, and AT/GC ratio.
+# Date: Oct 2024
 
+# Note: Ensure the terminal is in the directory containing the .fasta files 
+#       before running the commands below.
+
+# 1. Count how many lines there are in each .fasta file:
+# The `wc -l` command counts the number of lines in the input files.
+# The `*.fasta` wildcard matches all files ending with `.fasta`.
 wc -l *.fasta
 
-#2 Print everything starting from the second line for the E. coli genome:
-#Aim to display from the second line of a file, skipping the first line (which is usually the header information in a FASTA file)
+# 2. Print everything starting from the second line for the E. coli genome:
+# `tail -n +2` starts reading the file from the second line (skipping the header).
+# Useful for extracting the sequence data while ignoring metadata or comments.
+tail -n +2 E.coli.fasta
 
-tail -n +2 E.coli.fasta 
-
-#3 Count the sequence length of the E. coli genome:
-
+# 3. Count the sequence length of the E. coli genome:
+# `tail -n +2`: Skips the first line (header).
+# `tr -d '\n'`: Removes newline characters to create a single continuous sequence.
+# `wc -c`: Counts the total number of characters, giving the sequence length.
 tail -n +2 E.coli.fasta | tr -d '\n' | wc -c
 
-#4 Count the matches of “ATGC” in the E. coli genome:
-
+# 4. Count the matches of "ATGC" in the E. coli genome:
+# `tail -n +2`: Skips the header.
+# `tr -d '\n'`: Combines all lines into one long sequence.
+# `grep -o "ATGC"`: Finds all occurrences of "ATGC" and outputs each match on a new line.
+# `wc -l`: Counts the number of lines, i.e., the number of "ATGC" matches.
 tail -n +2 E.coli.fasta | tr -d '\n' | grep -o "ATGC" | wc -l
 
-#5 Compute the AT/GC ratio:
-#awk: gsub(/[AT]/,""): Count the total number of A and T. gsub(/[GC]/,""): Count the total number of G and C. print a/g: Output the ratio of (A+T) to (G+C)
+# 5. Compute the AT/GC ratio for the E. coli genome:
+# `tail -n +2`: Skips the header.
+# `tr -d '\n'`: Joins all lines into a single sequence.
+# `awk`:
+#   - `gsub(/[AT]/,"")`: Counts the number of A and T bases in the sequence.
+#   - `gsub(/[GC]/,"")`: Counts the number of G and C bases in the sequence.
+#   - `print a/g`: Outputs the ratio of (A+T) to (G+C).
+tail -n +2 E.coli.fasta | tr -d '\n' | awk '{a=gsub(/[AT]/,""); g=gsub(/[GC]/,""); print a/g}'
 
-tail -n +2 E.coli.fasta | tr -d '\n' | awk '{a=gsub(/[AT]/,""); g=gsub(/[GC]/,""); print a/g}' 
-
-#The above command may runs very slowly and the optimizing the command to improve execution speed shows below, but just an idea
-#tail -n +2 E.coli.fasta | tr -d '\n' > temp_seq.txt 
-#awk '{a=gsub(/[AT]/,""); g=gsub(/[GC]/,""); print a/g}' temp_seq.txt
+# Optional Optimization:
+# Writing the sequence to a temporary file for improved efficiency in repeated analyses.
+# Step 1: Remove the header and join the sequence lines into one continuous sequence.
+# `> temp_seq.txt`: Writes the sequence into a temporary file for further processing.
+# Step 2: Use `awk` on the temporary file to calculate the AT/GC ratio.
+# This approach minimizes repetitive file operations, reducing execution time for large genomes.
+# tail -n +2 E.coli.fasta | tr -d '\n' > temp_seq.txt 
+# awk '{a=gsub(/[AT]/,""); g=gsub(/[GC]/,""); print a/g}' temp_seq.txt

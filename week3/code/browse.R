@@ -1,3 +1,10 @@
+#!/usr/bin/env Rscript
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: browse.R
+# Description: Simulates and visualizes exponential growth using a simple R function.
+# Outputs: A plot of exponential growth.
+# Date: Oct 2024
+
 Exponential <- function(N0 = 1, r = 1, generations = 10) {
   # Runs a simulation of exponential growth
   # Returns a vector of length generations

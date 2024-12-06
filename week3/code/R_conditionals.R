@@ -1,3 +1,10 @@
+#!/usr/bin/env Rscript
+# Author: Kevin Zhao zhetao.zhao24@imperial.ac.uk
+# Script: R_conditionals.R
+# Description: Contains three functions to check whether a number is even, a power of 2, or a prime.
+# Outputs: Messages indicating the properties of the given numbers.
+# Date: Oct 2024
+
 # Checks if an integer is even
 is.even <- function(n = 2) {
   if (n %% 2 == 0) {

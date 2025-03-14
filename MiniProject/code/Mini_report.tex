@@ -1,0 +1,160 @@
+\documentclass[11pt]{article}
+\usepackage{booktabs}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{lineno}
+\usepackage{setspace}
+\usepackage{natbib}
+\newcommand\wordcount{
+    \immediate\write18{texcount -1 -sum -merge \jobname.tex > \jobname-words.sum }
+    \input{\jobname-words.sum}
+}
+% Set line spacing to 1.5
+\onehalfspacing
+
+\title{Miniproject_Report}
+\author{Kevin Zhao}
+\date{March 2025}
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+    \vspace{1.75cm}
+    \Large
+        \textbf{Mechanistic Models Outperform Phenomenological Models in Bacterial Growth Curve Fitting}
+        \vspace{2.5cm}\\
+        \textbf{Kevin Zhao}\\
+        CID: 01925750\\
+        \vspace{1.5cm}
+        \large
+        Supervised By:\\
+        Prof. Samraat Pawar\\
+        Staff. Zhongbin Hu\\
+        \vspace{1.5cm}
+        Word Count :\wordcount{} \\
+        \vspace{4cm}
+        A Mini-Project report submitted in fulfillment of requirements for the degree of \textbf{Living Planet with Computational Methods in Ecology and Evolution}\\
+        \vspace{1.5cm}
+        Department of Life Sciences\\
+        Imperial College London\\
+        March 2025
+    \end{center}
+\end{titlepage}
+
+\begin{abstract}
+Accurately modeling bacterial growth is important for predicting microbial behavior in various applications. We evaluate the performance of phenomenological polynomial models versus mechanistic sigmoidal models in fitting bacterial growth curves. In this study, growth data were fitted with two polynomial models (quadratic and cubic) and two mechanistic models (logistic and Gompertz). Nonlinear least squares fitting was performed in R, and model fits were compared using the small-sample corrected Akaike Information Criterion (AICc) and the Bayesian Information Criterion (BIC). The results indicate that the logistic model provided the best fit for the majority of growth curves, with the Gompertz model often being the second-best. In contrast, higher-order polynomial models generally showed inferior fits and were seldom selected as optimal by either AICc or BIC. We conclude that mechanistic models outperform phenomenological polynomials in capturing bacterial growth patterns, likely due to their ability to reflect underlying biological growth processes. These findings underscore the value of using biologically grounded models for growth curve analysis. Overall, this study provides guidance for selecting appropriate models and highlights the greater insight offered by mechanistic growth models.
+\end{abstract}
+
+\pagebreak
+
+\section{Introduction}
+Bacterial growth prediction is important in fields like food safety, clinical microbiology, and biotechnology, where understanding microbial proliferation informs decisions on shelf-life and infection control \citep{MotulskyChristopoulos2004}. Such growth curves typically exhibit a sigmoidal pattern with a lag phase, an exponential growth phase, and a stationary phase. Reliable models quantify key parameters of these phases (e.g., maximum growth rate, lag duration, carrying capacity) and enable forecasting of microbial behavior under various conditions. Moreover, similar S-shaped growth trends occur in diverse biological systems (from microbial cultures to fish and plant populations), underscoring the broad relevance of growth curve modeling.
+
+Mathematical models of bacterial growth can be categorized as \textit{mechanistic} or \textit{phenomenological}. Mechanistic models derive from biological principles. For example, the logistic equation assumes limited resources (carrying capacity), and the Gompertz function is a widely used sigmoid model for microbial growth. Such models have parameters with direct biological meaning (e.g., carrying capacity $K$, maximum specific growth rate $\mu$). Phenomenological models like polynomials, by contrast, are chosen purely to fit the observed data and have coefficients with no inherent biological significance. A high-order polynomial can mimic an S-shaped curve within the data range but may produce unrealistic behavior when extrapolated, and it offers little insight into the underlying biology. Indeed, a sigmoidal model’s parameters (such as the asymptotic population size in a Gompertz model) are far more informative than the coefficients of a polynomial fit \citep{GrasteauEtAl2000}. For instance, Gompertz growth curves have been shown to describe animal growth more meaningfully — with interpretable asymptotes and rates — than quadratic models \citep{GrasteauEtAl2000}. In general, biologically grounded models are expected to be more predictive and insightful than purely empirical ones (Levins 1966 for discussion on the trade-off between model simplicity and realism) \citep{Levins1966}.
+
+Choosing the best-fitting model is not straightforward: often multiple distinct models can fit the same dataset almost equally well \citep{JohnsonOmland2004}. This non-uniqueness complicates interpretation, because a good fit alone does not guarantee that the model reflects the true underlying process \citep{JohnsonOmland2004}. Indeed, even logistic or Gompertz models—while sigmoidal—might not offer genuine mechanistic insight if other models fit just as well \citep{BolkerEtAl2013}. Therefore, objective model selection approaches are required. Information criteria such as Akaike’s Information Criterion (AIC) and the Bayesian Information Criterion (BIC) are widely used for quantitative model comparison. These metrics evaluate model fit while penalizing model complexity to balance goodness-of-fit with parsimony. BIC in particular applies a strong penalty that increases with sample size, tending to favor simpler models as data volume grows \citep{BurnhamAnderson2004}. In our analysis, we employ the small-sample corrected AIC (AICc) alongside BIC to compare model performance given our dataset size.
+
+This study compares two phenomenological models (quadratic and cubic polynomials) against two mechanistic models (logistic and Gompertz) to determine which best fits a set of bacterial growth curves. We perform nonlinear least-squares fitting for the sigmoidal models and linear regression for the polynomial models, then use AICc and BIC to identify the preferred model for each growth curve. We hypothesize that the mechanistic models will outperform the polynomial models in most cases, providing superior fit and more biologically interpretable parameters. By evaluating these modeling approaches, we aim to provide guidance on selecting appropriate models for bacterial growth curve analysis.
+
+\section{Methods}
+\subsection{Data}
+The dataset used in this study comes from the file \texttt{LogisticGrowthData.csv}, contains 4,387 microbial growth records from 10 publications \citep{BaeEtAl2014, BernhardtEtAl2018, GalarzEtAl2016, GillDeLacy1991, PhillipsGriffiths1987, RothWheaton1962, SilvaEtAl2018, Sivonen1990, StannardEtAl1985, ZwieteringEtAl1994}, spanning 45 species, 18 media, and 17 temperatures (0°C–37°C). Each growth curve is identified by a unique combination of temperature, species, medium, citation, and replicate, forming 285 subsets. After removing negative values and obvious errors, 4,361 observations remained. The data covers a range of microbes that providing a diverse foundation for growth analysis.
+
+\subsection{Growth Models}
+The mechanistic models were the logistic growth model and the Gompertz growth model. Both models are often presented in many parameterisations that mathematically equivalent or nearly equivalent. As different parameters can be chosen or transformed, in this scenario I used the following expressions of biological meaning of each parameter for the research. The logistic model is defined as \citep{Verhulst1838}:
+\[
+N(t) = \frac{K}{1 + \exp[-\mu (t - t_i)]}~
+\]
+where $K$ is the carrying capacity (upper asymptote), $\mu$ is the maximum growth rate, and $t_i$ is the inflection time (the time at which $N(t)=K/2$). This model produces a sigmoidal curve symmetric about $t_i$. The Gompertz model (another sigmoidal function) was defined as \citep{ZwieteringEtAl1990}:
+\[
+N(t) = K \exp\{-\exp[-b (t - t_i)]\}~
+\]
+with $K$ as the asymptote, $b$ a growth rate constant, and $t_i$ the inflection time. The Gompertz curve is asymmetric, typically exhibiting a more gradual approach to $K$ than the logistic model.
+
+The phenomenological models were polynomial functions: a quadratic 
+\[
+N(t) = at^2 + bt + c~
+\]
+and a cubic 
+\[
+N(t) = at^3 + bt^2 + ct + d~
+\]
+with $a, b, c, d$ being fitted coefficients. Unlike the logistic or Gompertz, the polynomials do not level off and will diverge as $t$ becomes large (beyond the observed range) \citep{MotulskyChristopoulos2004}. Their flexibility comes at the cost of interpretability, as the coefficients have no direct biological meaning.
+
+\subsection{Model Fitting}
+Each of the four models was fitted to each growth curve. For the logistic and Gompertz models, we performed nonlinear least-squares regression using the Levenberg--Marquardt algorithm via the \texttt{nlsLM} function from the \texttt{minpack.lm} R package \citep{ElzhovEtAl2023}. Initial parameter estimates were derived from the data: $K$ was set to the maximum observed $N(t)$ for that curve, $t_i$ was set near the time when $N(t)$ reached half of that maximum, and the growth rate parameter ($\mu$ for logistic, $b$ for Gompertz) was approximated from the slope during exponential growth. If a nonlinear fit did not converge initially, we adjusted the starting values and refitted; ultimately, all curves were successfully fitted by both mechanistic models. The quadratic and cubic models, being linear in their parameters, were fitted using ordinary least squares (the \texttt{lm} function in R) without need for initial guesses. 
+
+We also calculated the coefficient of determination ($R^2$) for each fit and inspected the residuals for any systematic patterns.
+
+\subsection{Model Selection}
+To objectively compare model fits, we calculated the small-sample corrected Akaike Information Criterion (AICc) and the Bayesian Information Criterion (BIC) for every fit. These criteria combine model error with a penalty for the number of parameters $p$ in the model. AICc is defined as:
+\[
+\text{AICc} = n \ln(\text{RSS}/n) + 2p + \frac{2p(p+1)}{n-p-1}~
+\]
+and BIC as:
+\[
+\text{BIC} = n \ln(\text{RSS}/n) + p\ln(n)~
+\]
+where $n$ is the number of data points (time observations) used in the fit. Lower values of AICc or BIC indicate a better balance of goodness-of-fit and simplicity \citep{BurnhamAnderson2004}. For each growth curve, we identified the model with the lowest AICc (the AICc-best model) and the model with the lowest BIC (the BIC-best model). We tallied the frequency with which each of the four models provided the best AICc or BIC.
+
+\subsection{Computational Tools}
+All analyses were implemented in R (v4.4.1). Data manipulation and visualization were facilitated by the \texttt{tidyverse} suite (including \texttt{ggplot2} for plots). Nonlinear model fitting was performed using the \texttt{nlsLM} function from \texttt{minpack.lm}, and polynomial fits used base R's \texttt{lm}. Plot outputs were arranged using the \texttt{patchwork} package. We also used simple Bash scripts to automate fitting all models across all curves and to compile the resulting metrics, ensuring a reproducible workflow. While alternative frameworks (e.g., AD Model Builder or Bayesian MCMC) exist for nonlinear model fitting, they introduce additional complexity and were not necessary for this study.
+
+\section{Results}
+All four models (logistic, Gompertz, quadratic, and cubic) were fitted to each of the 285 growth curves. Convergence rates were 100\% for the polynomial and logistic fits; Gompertz fits converged in about 92\% of the curves. Generally, the logistic model best described the majority of curves. According to AICc, 166 (58\%) curves were best fit by the logistic model, while 62 (22\%) were best fit by the Gompertz. The polynomial models were rarely selected. BIC results showed a similar trend (Table~\ref{tab:tab1}).
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Model} & \textbf{Convergence (\%)} & \textbf{$R^2>0.5$ (\%)} & \textbf{Best AICc (\#)} & \textbf{Best BIC (\#)}\\
+\midrule
+Quadratic & 100 & 85.1 & 33 & 18\\
+Cubic     & 100 & 90.8 & 24 & 49\\
+Logistic  & 100 & 91.8 & 166 & 109\\
+Gompertz  & 91.6 & 89.2 & 62 & 109\\
+\bottomrule
+\end{tabular}
+\caption{Summary of model performance across 285 curves.}
+\label{tab:tab1}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../results/example_bestfits.png}
+\caption{Example of fitted growth curves for a representative dataset. (A) Logistic Best Scenario  (B) Gompertz Best Scenario (C) Quadratic Best Scenario (D) Cubic Best Scenario}
+\label{fig:fourcurves}
+\end{figure}
+
+In many cases where Gompertz or logistic failed to be top, the data either had few time points or exhibited a pronounced decline (death phase) not captured by the sigmoidal assumption. Polynomials have no mechanistic constraint and thus can curve downward after a peak, sometimes fitting that death phase better (Figure~\ref{fig:fourcurves}, panel A).
+
+Figure~\ref{fig:fourcurves} illustrates a representative growth curve with fits from all models. The logistic and Gompertz curves closely follow the data through lag, exponential, and stationary phases, virtually overlapping each other. The cubic polynomial approximates the sigmoidal shape but deviates as it approaches the carrying capacity (overshooting the observed plateau), while the quadratic polynomial fails to capture the plateau entirely. This example reflects the general finding that mechanistic models not only produce better statistical fits, but also yield curves that align with biological expectations of growth behavior.
+
+\section{Discussion}
+Our comparison of phenomenological and mechanistic models for bacterial growth curves demonstrated a clear advantage of the mechanistic approach, particularly the logistic model. Several factors explain why the logistic model slightly outperformed the Gompertz model in our dataset, and why both mechanistic models outperformed simple polynomials.
+
+\textbf{Logistic vs Gompertz:} The logistic and Gompertz functions are similar sigmoidal models, differing mainly in the symmetry of their curves (logistic is symmetric, Gompertz has a longer tail toward the asymptote). In our dataset, they yielded very similar fits, with the logistic having a slight edge. This suggests that the growth curves we analyzed did not require the Gompertz model’s extra flexibility; the assumption of a symmetric rise to carrying capacity was sufficient to describe the data. Other researchers have found the opposite in some cases – for example, Zwietering et al. (1990) reported that a logistic model adequately described only about one-third of their bacterial growth curves, whereas a Gompertz model fit almost all cases \citep{ZwieteringEtAl1990}. Those differences likely arise when growth patterns are more asymmetric (e.g., very pronounced lag phases), making the logistic too restrictive. In our conditions, however, logistic and Gompertz were nearly interchangeable, so the simpler logistic was preferred by the information criteria. In practice, this means that if two models describe the data equally well, the simpler (here, logistic) should be chosen.
+
+\textbf{Mechanistic parameters vs. polynomial coefficients:} A key benefit of mechanistic models is the interpretability of their parameters. Both logistic and Gompertz models yield parameters with direct biological meaning – carrying capacity ($K$), maximum growth rate ($\mu$ or related parameter), and sometimes an explicit lag phase duration. These parameters can be compared across experiments or linked to underlying biology (for example, a higher $\mu$ might indicate optimal growth conditions). This advantage is well-recognized: for instance, the parameters of a Gompertz growth curve have been shown to be biologically meaningful (and even heritable) in animal growth studies \citep{GrasteauEtAl2000}. Our models were parameterized in line with this philosophy (following the approach of Zwietering et al.) \citep{ZwieteringEtAl1990}, providing us with interpretable metrics for each curve. In stark contrast, the coefficients of a polynomial fit have no inherent biological interpretation – they are simply whatever values are needed to minimize the squared error. Thus, even aside from fit quality, polynomial models are less useful scientifically because they cannot directly inform us about growth characteristics like “maximum rate” or “final population size.” In our results, we saw that the mechanistic models not only fit better but also yielded sensible parameter estimates (e.g., plausible $K$ values and growth rates), whereas the polynomial coefficients were not informative.
+
+\textbf{Limitations of polynomial fits:} The poor performance of the quadratic and cubic models highlights the limitations of using low-order polynomials to model sigmoidal growth. A quadratic curve is fundamentally unable to represent a plateau (it will diverge to $\pm\infty$ at long times), and indeed our quadratic fits failed to level off. A cubic model can produce one inflection point and thus mimic an S-shape to a limited extent, but it still lacks a true asymptote. Accordingly, our cubic fits often overshot the observed data as they approached the carrying capacity. Using a higher-degree polynomial might improve the fit within the range of observed data, but it would introduce oscillations or erratic behavior outside that range and greatly increase the risk of overfitting. Our finding that even a cubic (with four parameters) did not outperform the three-parameter logistic or Gompertz reinforces the point that adding polynomial terms is not an efficient way to capture sigmoidal dynamics. This outcome echoes longstanding guidance in curve fitting to avoid using high-order polynomials for extrapolating biological growth and to prefer models that respect the actual growth mechanism \citep{MotulskyChristopoulos2004}.
+
+\textbf{Model selection considerations:} From an applied perspective, our study underscores the importance of rigorous model selection. By using AICc and BIC, we quantitatively confirmed that the added complexity of the polynomial models was unwarranted. Simpler measures like $R^2$ alone could not have revealed this as clearly – for example, the cubic model had a high $R^2$ on many curves, yet AICc/BIC penalized its extra parameters and showed it to be inferior. Information criteria provided an objective balance of goodness-of-fit and parsimony, allowing us to identify the logistic model as the optimal choice. In cases where two models had nearly equal support (e.g., logistic and Gompertz on a few curves), one could adopt model averaging to account for that uncertainty. In our analysis, this was not essential because the logistic was usually strongly favored, but in other datasets model averaging could improve predictive robustness. Overall, applying such information-theoretic approaches helps ensure that we neither under-fit nor over-fit, but instead select a model of appropriate complexity for the data.
+
+\textbf{Study limitations and future directions:} One limitation is ignoring the death phase, as data ended at stationary and logistic/Gompertz cannot capture decline—more complex or multi-phase models may be needed. Another caveat is the dataset’s homogeneity; under diverse conditions or severe stress, other models (e.g., Gompertz for extended lag) might fit better. Model choice should thus remain dataset-specific.
+
+In future work, more advanced models such as the \textit{Baranyi model}, which includes an explicit lag phase, or the \textit{three-phase linear model} could better capture extended lag phases or unusual patterns \citep{BuchananEtAl1997}. Despite its simplicity, the latter often performs surprisingly well and can be a pragmatic choice. Broader evaluation would determine whether the logistic model’s success holds universally or if certain conditions favor more complex approaches. Global optimization or hierarchical modeling may further improve parameter estimates by combining multiple curves \citep{BolkerEtAl2013}. Beyond this study, mechanistic models remain vital: fisheries often use von Bertalanffy or logistic growth to ensure realistic asymptotes, and epidemiology relies on logistic-like curves for saturating dynamics. As Levins (1966) stressed, balancing simplicity and realism is crucial, and careful model selection helps achieve that balance \citep{Levins1966}. Besides NLLS, Bayesian methods can incorporate prior knowledge (via priors) and handle small-sample or uncertain scenarios—though they are more computationally demanding. Machine learning (e.g., random forests, neural networks) avoids fixed functional forms, captures complex interactions in large datasets, but requires more data and lacks direct biological interpretability. In general, Bayesian approaches suit limited-data or uncertainty-focused studies, while ML is preferable for large-scale predictive tasks. These methods can also be merged (e.g., Bayesian neural networks) or combined with mechanistic models to balance interpretability, accuracy, and uncertainty in microbial growth modeling.
+
+\section{Conclusion}
+Mechanistic sigmoidal models proved to be superior to phenomenological polynomial models for fitting bacterial growth curves in our analysis. The logistic model, in particular, provided the best overall fits to the data, closely followed by the Gompertz model, whereas simple quadratic or cubic polynomial models generally failed to capture the sigmoidal growth pattern adequately. Beyond better statistical fit, the mechanistic models yielded parameters (such as maximum growth rate and carrying capacity) that carry clear biological interpretations, offering insights that purely empirical models cannot provide. 
+
+In practical terms, these findings support the use of biologically grounded growth models (like logistic or Gompertz) when analyzing bacterial growth data. Such models not only describe the data more accurately but also enable meaningful comparisons across different experiments and conditions. Additionally, applying objective model selection criteria (e.g., AICc and BIC) helps ensure that the chosen model is appropriately complex without overfitting. Overall, by favoring mechanistic models, researchers can improve the predictive accuracy and interpretability of growth curve analyses, leading to more reliable conclusions in microbiology and related fields.
+\pagebreak
+
+\bibliographystyle{apalike}
+\bibliography{Mini_references.bib}
+
+\end{document}

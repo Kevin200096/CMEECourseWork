@@ -1,0 +1,27 @@
+# System files
+.DS_Store
+
+# Python cache and build files
+__pycache__/
+*.py[cod]
+*.pkl
+
+# Logs
+*.log
+
+# Virtual environment
+env/
+venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Results and temporary data files
+results/
+*.tmp
+*.bak
+*.swp
+
+# IDE-specific files
+.vscode/
+.idea/

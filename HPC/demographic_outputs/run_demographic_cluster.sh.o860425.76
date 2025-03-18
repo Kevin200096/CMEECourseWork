@@ -1,0 +1,13 @@
+Starting demographic cluster array job, index = 76
+Demographic job 76 done. Condition: small_spread File: demographic_cluster_output_76.rda 
+Finished demographic cluster array job, index = 76
+
+============================================
+
+        Job resource usage summary 
+
+                 Memory (GB)    NCPUs
+ Requested  :         1             1
+ Used       :         0 (peak)   0.82 (ave)
+
+============================================

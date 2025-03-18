@@ -1,0 +1,14 @@
+Starting neutral cluster array job, index = 90
+[1] "Simulation Complete"
+Neutral cluster job 90 done. Community size = 5000 Output file: neutral_cluster_output_90.rda 
+Finished neutral cluster array job, index = 90
+
+============================================
+
+        Job resource usage summary 
+
+                 Memory (GB)    NCPUs
+ Requested  :         1             1
+ Used       :         0 (peak)   0.95 (ave)
+
+============================================

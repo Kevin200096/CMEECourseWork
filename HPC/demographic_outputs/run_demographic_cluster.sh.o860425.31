@@ -1,0 +1,13 @@
+Starting demographic cluster array job, index = 31
+Demographic job 31 done. Condition: small_adult File: demographic_cluster_output_31.rda 
+Finished demographic cluster array job, index = 31
+
+============================================
+
+        Job resource usage summary 
+
+                 Memory (GB)    NCPUs
+ Requested  :         1             1
+ Used       :         0 (peak)   0.82 (ave)
+
+============================================

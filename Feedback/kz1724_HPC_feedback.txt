@@ -1,0 +1,83 @@
+HPC long practical feedback for Kevin ( Kevin Zhao ) 2025
+ 
+email : zhetao.zhao24@imperial.ac.uk
+username : kz1724
+ 
+Your final mark is : 92.89 %
+ 
+Mark allocation break down
+1) Technically correct answers to all questions worth 60 % of final grade
+Your mark :  59 /60
+2) Quality of free text answers worth 8 % of final grade
+Your mark :  5 /8
+3) Quality of graphical outputs worth 8 % of final grade
+Your mark :  8.9 /10
+4) Quality of code worth 8 % of final grade
+Your mark :  7.5 /8
+5) Answers to challenge questions worth 16 % of final grade
+Your mark :  13 /14
+ 
+Marks for main questions
+Q 0 :    3 / 3
+Q 1 :    4 / 4
+Q 2 :    3 / 3
+Q 3 :    10 / 10
+Q 4 :    10 / 10
+Q 5 :    8 / 8
+Q 6 :    10 / 10
+Q 7 :    2 / 2
+Q 8 :    1 / 1
+Q 9 :    1 / 1
+Q 10 :    2 / 2
+Q 11 :    2 / 2
+Q 12 :    2 / 2
+Q 13 :    2 / 2
+Q 14 :    2.5 / 3    comments: this needed to spell out more completely the reason why the system leads to monodominance - explain explicitly that no speciation means no new species and explain why richness can't go to zero.
+Q 15 :    3 / 3
+Q 16 :    1 / 1
+Q 17 :    1 / 1
+Q 18 :    3.5 / 4    comments: ideally would have explained more why we get such a balance, higher richness means more extinction, dynamic equilibrium etc.
+Q 19 :    3 / 3
+Q 20 :    3 / 3
+Q 21 :    2 / 2
+Q 22 :    3.5 / 4    comments: needed to answer the question of why the initial conditions do not matter otherwise excellent
+Q 23 :    6 / 6
+Q 24 :    6 / 6
+Q 25 :    9.5 / 10    comments: the .e files were supposed to be handed in even if empty
+Q 26 :    10 / 10
+          ---------
+Total     114 / 116
+          ---------
+ 
+Marks for text quality :  5 /8
+Comments...
+In question 1 needed more detail as to why this happens and would be better to spell out things like population rather than just saying 'pop'
+In question 2 excellent
+In question 5 good but would have benefitted from being explained more and written as prose rather than with + symbol and missing words
+In question 6 very good, but could have explained a bit more clearly and with more detail
+In question 14 well written but doesn't go deep enough to show full understanding by explaining why
+In question 18 well written but could have explained more the reasons
+In question 22 well written but brief and leaves out details / reasoning
+ 
+Marks for graphics quality :  8.9 /10
+Comments...
+In question 1 Very good but would be nice to move the legend so it doesn't overlap the data
+In question 2 excellent, I'm being fussy to say this but would be better without a box around the legend - a very minor point though
+In question 5 excellent
+In question 6 excellent, but would be nice to get rid of the box around the legend
+In question 14 exemplary
+In question 18 excellent, if I was being picky I'd say remove the box from the legend
+In question 22 very good, but needed labels on the octaves to get full marks
+In question 26 very good but ideally would label the octaves as well
+ 
+Marks for code quality :  7.5 /8
+Comments...
+excellent, clear and well commented, some comments not in English
+ 
+Marks for challenge questions :  13 /14
+Comments...
+challenge question A, excellent, though if I'm being picky I would say axes are better than those grids in the final graph - would make it look more like a paper
+challenge question B, a higher resolution output would have been nice
+challenge question C, excellent
+challenge question D, good though the legend obscures part of the data in the chart and I'm not convinced about the duration of the time series, the smaller communities should be the ones that run for longer if this was all fully correct'
+challenge question E, excellent, though the graph could have been improved with better octave labels (1, 2-3, 4-7 and so on) and again I prefer axes to grids.

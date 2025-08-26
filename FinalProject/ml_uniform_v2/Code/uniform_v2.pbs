@@ -1,0 +1,57 @@
+#!/bin/bash -l
+#PBS -N Ne_LD_uniform
+#PBS -J 1-1000
+#PBS -l select=1:ncpus=8:mem=12gb
+#PBS -l walltime=12:00:00
+#PBS -o logs/
+#PBS -j oe
+
+# --- 安全选项（避免隐式错误），注意：默认值写好即可避免未定义报错 ---
+set -eE -o pipefail
+
+# --- 模块 & conda 环境 ---
+module purge
+module load gcc/10.2.0
+module load anaconda3/personal
+# 老版 conda 常用的激活方式：
+source activate "$HOME/envs/pophist"
+# 保险：把 conda 的 bin 放到 PATH 前面
+export PATH="$HOME/envs/pophist/bin:$PATH"
+
+# --- 线程数：PBS_NCPUS 不存在时回退为 8 ---
+threads="${PBS_NCPUS:-${NCPUS:-8}}"
+export OMP_NUM_THREADS="$threads"
+export LC_ALL=C
+
+# --- 切到作业目录（若 PBS_O_WORKDIR 缺失，则回退到你的工程目录） ---
+cd "${PBS_O_WORKDIR:-$HOME/MScProject/hpc}"
+mkdir -p logs
+
+echo "[INFO] idx=$PBS_ARRAY_INDEX  threads=$OMP_NUM_THREADS  host=$(hostname)"
+
+# --- 如无 r2_bin.so，则在作业节点编译 Linux 版（千万不要上传 mac 版） ---
+if [ ! -f r2_bin.so ]; then
+  echo "[INFO] compiling r2_bin.so ..."
+  gcc -fPIC -O3 -fopenmp \
+      -I"$(R RHOME)/include" \
+      -shared r2_bin.c -o r2_bin.so
+  echo "[INFO] r2_bin.so built."
+fi
+
+# --- 1) 模拟（生成 .trees/.vcf；VCF 用临时文件写入再重命名） ---
+python sim_uniform.py "$PBS_ARRAY_INDEX"
+
+# 取本任务的 VCF 文件（rep 三位数）
+rep=$(printf "%03d" "$PBS_ARRAY_INDEX")
+VCF=$(ls sim_Ne*"_rep${rep}.vcf")
+if [ ! -s "$VCF" ]; then
+  echo "[ERROR] VCF missing or empty: $VCF"
+  exit 2
+fi
+
+# --- 2) VCF → CSV ---
+# vcf2stats.R 会加载同目录的 r2_bin.so & read_vcf_recode.R
+Rscript vcf2stats.R "$VCF"
+echo "[OK] $VCF → csv"
+
+echo "[DONE] idx=$PBS_ARRAY_INDEX"

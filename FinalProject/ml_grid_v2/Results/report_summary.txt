@@ -1,0 +1,55 @@
+[Report] grid v2
+Dataset: dataset_grid.csv
+Rows: 300   Bins: 30   Unique Ne: 10
+All-NA bins: (none)
+
+[RF]
+  R2: 0.9901767101915264
+  RMSE_log10: 0.09476298208582644
+  MAE_log10: 0.0528999445762938
+  Spearman: 0.9934447588730168
+  has_shap: True
+  R2_cv_mean: 0.98873527696918
+  R2_cv_std: 0.002453715419818308
+  RMSE_log10_cv_mean: 0.10099306942948827
+  RMSE_log10_cv_std: 0.011074635258381307
+  MAE_log10_cv_mean: 0.05338379285248072
+  MAE_log10_cv_std: 0.005963798150229901
+  RMSE_multiplier: 1.2438355983525253
+  AUC: 0.9930555555555556
+  roc_threshold: 100000.0
+
+[XGB]
+  R2: 0.9869778683517599
+  RMSE_log10: 0.1091066650574704
+  MAE_log10: 0.05602807895448336
+  Spearman: 0.9934503628814761
+  has_shap: True
+  R2_cv_mean: 0.986474398737926
+  R2_cv_std: 0.00435297030776896
+  RMSE_log10_cv_mean: 0.10995433455685907
+  RMSE_log10_cv_std: 0.01852561124282498
+  MAE_log10_cv_mean: 0.058292036851247155
+  MAE_log10_cv_std: 0.009402474826724632
+  RMSE_multiplier: 1.285602372019629
+  AUC: 0.9965277777777778
+  roc_threshold: 100000.0
+
+[Figures found]
+  parity_rf.png
+  residuals_rf.png
+  calibration_true_bins_rf.png
+  calibration_pred_bins_rf.png
+  feature_importance_rf.png
+  roc_rf.png
+  shap_beeswarm_rf.png
+  shap_bar_rf.png
+  parity_xgb.png
+  residuals_xgb.png
+  calibration_true_bins_xgb.png
+  calibration_pred_bins_xgb.png
+  feature_importance_xgb.png
+  roc_xgb.png
+  shap_beeswarm_xgb.png
+  shap_bar_xgb.png
+  ld_by_ne.png

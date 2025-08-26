@@ -1,0 +1,42 @@
+#!/bin/bash -l
+#PBS -N Ne_LD_big2
+#PBS -J 211-300
+#PBS -l select=1:ncpus=8:mem=16gb
+#PBS -l walltime=24:00:00
+#PBS -o logs/
+#PBS -j oe
+
+########     ^}^w + Conda ##############################################
+module purge
+module load gcc/10.2.0
+module load anaconda3/personal
+source activate $HOME/envs/pophist
+export PATH=$HOME/envs/pophist/bin:$PATH
+export OMP_NUM_THREADS=$PBS_NCPUS
+export LC_ALL=C
+cd $PBS_O_WORKDIR
+mkdir -p logs
+
+######## r2_bin.so  ^h    ^t^a  ^l ^o   ^v  ^q  ^`     ^i##############################
+[ -f r2_bin.so ] || (
+  flock -n 9 || exit 0
+  [ -f r2_bin.so ] && exit 0
+  gcc -fPIC -O3 -fopenmp \
+      -I"$(R RHOME)/include" -shared r2_bin.c -o r2_bin.so
+) 9>.compile_lock
+
+########     ^k^= +      ^w ################################################
+python sim_grid.py "$PBS_ARRAY_INDEX"
+
+VCF=$(printf "sim_Ne%06d_rep%02d.vcf" \
+      $(python - <<PY
+Ne=[500,1000,2000,5000,10000,20000,50000,100000,200000,500000]
+R=30; i=int("$PBS_ARRAY_INDEX")-1
+print(Ne[i//R], (i%R)+1)
+PY
+))
+CSV=${VCF%.vcf}.csv
+[ -f "$CSV" ] && { echo "$CSV exist skip"; exit 0; }
+
+Rscript vcf2stats.R "$VCF"
+echo "$VCF to csv"

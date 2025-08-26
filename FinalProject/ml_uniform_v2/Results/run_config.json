@@ -1,0 +1,17 @@
+{
+  "csv": "dataset_uniform.csv",
+  "outdir": "ml_uniform_v2",
+  "seed": 202,
+  "cv": 5,
+  "model": "both",
+  "with_shap": true,
+  "roc_threshold": 100000.0,
+  "calib_bins": 10,
+  "python": "3.10.18 | packaged by conda-forge | (main, Jun  4 2025, 14:46:00) [Clang 18.1.8 ]",
+  "platform": "macOS-13.3-arm64-arm-64bit",
+  "numpy": "2.2.6",
+  "pandas": "2.3.0",
+  "sklearn": "1.7.1",
+  "xgboost": "3.0.3",
+  "shap": "0.48.0"
+}

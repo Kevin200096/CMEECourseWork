@@ -1,0 +1,42 @@
+#!/bin/bash -l
+#PBS -N Ne3epoch
+#PBS -J 1-2000
+#PBS -l select=1:ncpus=8:mem=12gb
+#PBS -l walltime=24:00:00
+#PBS -o logs/
+#PBS -j oe
+
+set -euo pipefail
+
+module purge
+module load gcc/10.2.0
+module load anaconda3/personal
+source activate $HOME/envs/pophist
+
+export PATH="$HOME/envs/pophist/bin:$PATH"
+export OMP_NUM_THREADS="${PBS_NCPUS:-${NCPUS:-8}}"
+export LC_ALL=C
+
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+
+# 1) 若无 r2_bin.so，则本地编译（Linux 版本）
+if [ ! -f r2_bin.so ]; then
+  gcc -fPIC -O3 -fopenmp \
+      -I"$(R RHOME)/include" \
+      -shared r2_bin.c -o r2_bin.so
+fi
+
+# 2) 模拟（本任务的 idx）
+python sim_three_epoch.py "$PBS_ARRAY_INDEX"
+
+# 3) 找到对应 VCF（按 rep 检索唯一文件）
+REP=$(printf "%04d" "$PBS_ARRAY_INDEX")
+VCF=$(ls sim_Ne1*_Ne2*_Ne3*_rep${REP}.vcf)
+if [ -z "$VCF" ]; then
+  echo "❌ VCF missing for rep=$REP"; exit 2
+fi
+
+# 4) 计算 r² → CSV
+Rscript vcf2stats_3epoch.R "$VCF"
+echo "✓ done (rep=$REP)"

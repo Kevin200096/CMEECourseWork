@@ -1,0 +1,81 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>ML Report</title>
+<style>body{font-family:Arial;margin:20px;max-width:1200px} img{max-width:560px;margin:6px;border:1px solid #ddd}</style>
+</head><body>
+<h1>ML Report — uniform v2</h1>
+<p>Dataset: <code>dataset_uniform.csv</code> | Rows: 1000 | Unique Ne: 1000</p>
+<h2>Metrics</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Model</th>
+      <th>R2</th>
+      <th>RMSE_log10</th>
+      <th>MAE_log10</th>
+      <th>Spearman</th>
+      <th>R2_cv_mean</th>
+      <th>R2_cv_std</th>
+      <th>RMSE_log10_cv_mean</th>
+      <th>RMSE_log10_cv_std</th>
+      <th>MAE_log10_cv_mean</th>
+      <th>MAE_log10_cv_std</th>
+      <th>RMSE_multiplier</th>
+      <th>AUC</th>
+      <th>roc_threshold</th>
+      <th>has_shap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RF</td>
+      <td>0.9252</td>
+      <td>0.1092</td>
+      <td>0.0860</td>
+      <td>0.8877</td>
+      <td>0.9039</td>
+      <td>0.0191</td>
+      <td>0.1184</td>
+      <td>0.0116</td>
+      <td>0.0870</td>
+      <td>0.0020</td>
+      <td>1.2859</td>
+      <td>0.9898</td>
+      <td>100000.0000</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>XGB</td>
+      <td>0.9217</td>
+      <td>0.1117</td>
+      <td>0.0876</td>
+      <td>0.8940</td>
+      <td>0.9101</td>
+      <td>0.0159</td>
+      <td>0.1145</td>
+      <td>0.0089</td>
+      <td>0.0857</td>
+      <td>0.0036</td>
+      <td>1.2933</td>
+      <td>0.9895</td>
+      <td>100000.0000</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<h2>Figures</h2>
+<div><img src='parity_rf.png' alt='parity_rf.png'><br><small>parity_rf.png</small></div>
+<div><img src='residuals_rf.png' alt='residuals_rf.png'><br><small>residuals_rf.png</small></div>
+<div><img src='calibration_true_bins_rf.png' alt='calibration_true_bins_rf.png'><br><small>calibration_true_bins_rf.png</small></div>
+<div><img src='calibration_pred_bins_rf.png' alt='calibration_pred_bins_rf.png'><br><small>calibration_pred_bins_rf.png</small></div>
+<div><img src='feature_importance_rf.png' alt='feature_importance_rf.png'><br><small>feature_importance_rf.png</small></div>
+<div><img src='roc_rf.png' alt='roc_rf.png'><br><small>roc_rf.png</small></div>
+<div><img src='shap_beeswarm_rf.png' alt='shap_beeswarm_rf.png'><br><small>shap_beeswarm_rf.png</small></div>
+<div><img src='shap_bar_rf.png' alt='shap_bar_rf.png'><br><small>shap_bar_rf.png</small></div>
+<div><img src='parity_xgb.png' alt='parity_xgb.png'><br><small>parity_xgb.png</small></div>
+<div><img src='residuals_xgb.png' alt='residuals_xgb.png'><br><small>residuals_xgb.png</small></div>
+<div><img src='calibration_true_bins_xgb.png' alt='calibration_true_bins_xgb.png'><br><small>calibration_true_bins_xgb.png</small></div>
+<div><img src='calibration_pred_bins_xgb.png' alt='calibration_pred_bins_xgb.png'><br><small>calibration_pred_bins_xgb.png</small></div>
+<div><img src='feature_importance_xgb.png' alt='feature_importance_xgb.png'><br><small>feature_importance_xgb.png</small></div>
+<div><img src='roc_xgb.png' alt='roc_xgb.png'><br><small>roc_xgb.png</small></div>
+<div><img src='shap_beeswarm_xgb.png' alt='shap_beeswarm_xgb.png'><br><small>shap_beeswarm_xgb.png</small></div>
+<div><img src='shap_bar_xgb.png' alt='shap_bar_xgb.png'><br><small>shap_bar_xgb.png</small></div>
+</body></html>

@@ -26,32 +26,32 @@ Ready-to-run scripts reproduce the ML results from the provided datasets.
 
 ```
 FinalProject/
-├── Initial Sample/                  # 单文件演示：VCF→LD曲线（本地）
+├── Initial Sample/
 │   ├── ana_sim.vcf
 │   ├── ld_curve.png
 │   ├── ld_curve_c.csv
 │   ├── run_ld.R
 │   └── simulate_to_vcf.py
 │
-├── Quality Check/                   # 质检与对比小脚本
+├── Quality Check/
 │   ├── compare_strategies.py
 │   ├── inspect_dataset.py
 │   └── quick_check.R
 │
-├── ml_grid_v2/                      # Strategy-1（离散10档Ne）的ML结果
+├── ml_grid_v2/
 │   ├── Code/
 │   ├── Results/
 │   ├── dataset_grid.csv
 │   ├── make_ml_report.py
 │   └── train_ne_regression.py
 │
-├── ml_threeepoch_rf_xgb/            # Three-epoch Ne 的ML结果
+├── ml_threeepoch_rf_xgb/
 │   ├── Code/
 │   ├── Results/
 │   ├── dataset_threeepoch.csv
 │   └── train_ne_threeepoch.py
 │
-├── ml_uniform_v2/                   # Strategy-2（连续Uniform Ne）的ML结果
+├── ml_uniform_v2/
 │   ├── Code/
 │   ├── Results/
 │   ├── dataset_uniform.csv
